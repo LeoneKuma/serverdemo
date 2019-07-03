@@ -36,14 +36,14 @@ public class LoginController {
             loginResultMap.put("isLoginSuccessful",true);
             loginResultMap.put("isAlreadyLogin",false);
         }
-        else if(!user.getPassWord().equals(userObj.getPassWord())&&user.isLoginState()==true){
+        else if(user.getPassWord().equals(userObj.getPassWord())&&user.isLoginState()==true){
             //已经登录，重新登录
             System.out.println("重新登录成功");
             user.setLoginState(true);
             loginResultMap.put("isLoginSuccessful",true);
             loginResultMap.put("isAlreadyLogin",true);
         }
-        else if(!user.getPassWord().equals(userObj.getPassWord())&&user.isLoginState()==false){
+        else if(!user.getPassWord().equals(userObj.getPassWord())){
             //密码错误
             System.out.println("密码错误");
             user.setLoginState(false);

@@ -62,12 +62,12 @@ public class SettingsController {
         System.out.println("update_userinfo事件");
         Map updateResultMap=new HashMap();
         UserInfo userInfoObj=JSON.parseObject(userInfoStr,UserInfo.class);
-        UserInfo userInfo=userInfoRepository.findByUserName(userInfoObj.getUserName());
-        if(userInfo!=null){
+
+        User user=userRepository.findByUserName(userInfoObj.getUserName());
+        if(user!=null){
             //修改成功
             System.out.println("修改成功");
-            userInfo=userInfoObj;
-            userInfoRepository.save(userInfo);
+            userInfoRepository.save(userInfoObj);
             updateResultMap.put("isUpdateUserInfoSuccessful",true);
             return updateResultMap;
         }

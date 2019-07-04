@@ -17,11 +17,11 @@ public class LoginController {
     private UserRepository userRepository;
 
     @PostMapping(value="/login")
-    public Map findByName(@RequestParam("user")String userStr){
+    public Map login(@RequestParam("user")String userStr){
         System.out.println("login请求");
         Map loginResultMap=new HashMap();
         User userObj=JSON.parseObject(userStr,User.class);
-        System.out.println(userObj.getUserName());
+        //System.out.println(userObj.getUserName());
         User user=userRepository.findByUserName(userObj.getUserName());
         if(user==null){//如果找不到用户名
             System.out.println("找不到用户名");

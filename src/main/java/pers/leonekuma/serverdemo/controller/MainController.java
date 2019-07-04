@@ -26,6 +26,7 @@ public class MainController {
         studentRepository.save(student);
         return studentRepository.findAll();
     }
+
     @PostMapping(value = "/find_by_id")
     public Student findByID(@RequestParam("id")Integer id){
         return studentRepository.findById(id).get();

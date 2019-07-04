@@ -7,7 +7,7 @@ public class User {
     @Id
     @Column(name = "userId",length = 10)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private String userId;
+    private Integer userId;
 
     @Column(name = "userName",length = 20)
     private String userName;
@@ -20,7 +20,7 @@ public class User {
 
     public User(){}
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -36,7 +36,7 @@ public class User {
         this.passWord=passWord;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

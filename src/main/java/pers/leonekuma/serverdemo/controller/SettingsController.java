@@ -1,6 +1,7 @@
 package pers.leonekuma.serverdemo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.leonekuma.serverdemo.entity.User;
@@ -12,6 +13,9 @@ import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.alibaba.fastjson.JSON.toJSONString;
+
 @RestController
 public class SettingsController {
     @Autowired
@@ -76,5 +80,31 @@ public class SettingsController {
             updateResultMap.put("isUpdateUserInfoSuccessful",false);
             return updateResultMap;
         }
+    }
+    @PostMapping(value = "/get_userinfo")
+    public UserInfo getUserInfo(@RequestParam("username")String userNameStr){
+        System.out.println("get_userinfo事件");
+        String userName=JSON.parseObject(userNameStr,String.class);
+        UserInfo userInfo=userInfoRepository.findByUserName(userName);
+        if (userInfo==null){
+            //用户第一次进入这个界面，进行初始化
+            userInfo= new UserInfo();
+            userInfo.setUserName(userName);
+            userInfo.setGender("保密");
+            userInfo.setNickName("昵称");
+            userInfo.setBirthDate("1989-06-04");
+            userInfo.setPortrait("");
+            userInfo.setFolloweeNum(0);//关注的人的数量
+            userInfo.setFollowerNum(0);//粉丝数量
+            userInfoRepository.save(userInfo);
+            return userInfo;
+
+        }
+        else{
+            //直接返回找到的用户信息设置
+            return userInfo;
+        }
+
+
     }
 }

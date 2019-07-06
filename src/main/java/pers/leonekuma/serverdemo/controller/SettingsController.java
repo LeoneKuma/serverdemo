@@ -1,7 +1,6 @@
 package pers.leonekuma.serverdemo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.leonekuma.serverdemo.entity.User;
@@ -92,7 +91,7 @@ public class SettingsController {
             userInfo.setUserName(userName);
             userInfo.setGender("保密");
             userInfo.setNickName("昵称");
-            userInfo.setBirthDate("1989-06-04");
+            userInfo.setBirthDate("1989-6-4");
             userInfo.setPortrait("");
             userInfo.setFolloweeNum(0);//关注的人的数量
             userInfo.setFollowerNum(0);//粉丝数量
@@ -103,6 +102,7 @@ public class SettingsController {
         else{
             //直接返回找到的用户信息设置
             return userInfo;
+
         }
 
 

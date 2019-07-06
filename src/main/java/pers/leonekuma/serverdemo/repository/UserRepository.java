@@ -5,7 +5,7 @@ import pers.leonekuma.serverdemo.entity.User;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User,String>{
+public interface UserRepository extends JpaRepository<User,Integer>{
     public User findByUserName(String userName);
     //public User findByUserId(String userId);
 }

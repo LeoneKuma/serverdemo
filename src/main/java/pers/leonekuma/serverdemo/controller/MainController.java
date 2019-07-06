@@ -24,6 +24,7 @@ public class MainController {
         student.setName(name);
         student.setAge(age);
         studentRepository.save(student);
+
         return studentRepository.findAll();
     }
 

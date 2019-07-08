@@ -1,7 +1,6 @@
 package pers.leonekuma.serverdemo.controller;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,24 +8,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pers.leonekuma.serverdemo.entity.CyberPicture;
 import pers.leonekuma.serverdemo.repository.PictureRepository;
+import pers.leonekuma.serverdemo.repository.UserRepository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class PictureController {
     @Autowired
     private PictureRepository pictureRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping(value = "/set_portrait_picture")
     public Map uploadPortrait(@RequestParam("username")String userName,@RequestParam("portrait")String picStr) throws Exception {
         //@RequestParam("portrait")String picStr
         System.out.println("进入set_portrait_picture");
         //List<Byte> picBytes=JSON.parseArray(picStr,Byte.class);
-        byte[] picBytes = picStr.getBytes();
+
+        byte[] picBytes = Base64.getDecoder().decode(picStr);
         Map resultMap = new HashMap();
         String dir;
         CyberPicture pic = pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait", userName);
@@ -54,7 +54,7 @@ public class PictureController {
         File picDir = new File(dir);
         if (!picDir.exists()) {
             //如果该路径不存在，则创造路径
-            picDir.mkdir();
+            picDir.mkdirs();
             System.out.println("创造路径");
         }
         //设置图片名称
@@ -78,7 +78,7 @@ public class PictureController {
         System.out.println("查看绝对路径:" + picFile.getAbsoluteFile());*/
 
         //System.out.println("查看父路径:"+picFile.getParent());
-        picFile.getParentFile().mkdirs();
+        //picFile.getParentFile().mkdirs();
         picFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(picFile);
         //将字节数列表形式的picBytes全部写入fos中（写进文件）
@@ -102,18 +102,36 @@ public class PictureController {
     }
     @PostMapping(value = "/get_portrait_picture")
     public Map getPortrait (
-            @RequestParam(value = "username")String userName
+            @RequestParam(value = "username")String userNameStr
     )throws Exception{
+        String userName=JSON.parseObject(userNameStr,String.class);
+        System.out.println("/get_portrait_picture");
         Map resultMap=new HashMap();
+       // System.out.println(userName);
+       // System.out.println();
         CyberPicture cyberPicture=pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait",userName);
+        String picDir;
+        String picName;
         if (cyberPicture==null){
             //用户没设置过头像
-            resultMap.put("picStr","null");
-            resultMap.put("isGetPortraitSuccessful",false);
-            return resultMap;
+            //System.out.println(pictureRepository.findAll().size());
+            /*String testName=pictureRepository.findAll().get(0).getUploadUserName();
+            String testType=pictureRepository.findAll().get(0).getPicType();
+            System.out.println(testType+" : "+testName);
+            System.out.println(testType+" : "+userName);
+            System.out.println(testName.equals(userName));
+            System.out.println(testType.equals("portrait"));*/
+            //resultMap.put("picStr","null");
+            //resultMap.put("isGetPortraitSuccessful",false);
+            //return resultMap;
+            picDir="pictures/portrait";
+            picName="defaultportrait.png";
         }
-        String picDir=cyberPicture.getUrlPath();
-        String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
+        else {
+            picDir=cyberPicture.getUrlPath();
+            picName=cyberPicture.getUploadUserName().concat(".cyberpic");
+        }
+
         File picFile=new File(picDir,picName);
         //读取文件
         ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
@@ -126,9 +144,13 @@ public class PictureController {
         while (-1 != (len = in.read(buffer, 0, buf_size))) {
             bos.write(buffer, 0, len);
         }
-        String picString = Base64.encodeBase64String(bos.toByteArray());
-        resultMap.put("picStr",picString);
+
+        //String picString = Base64.encodeBase64String(bos.toByteArray());
+        String picString=java.util.Base64.getEncoder().encodeToString(bos.toByteArray());
         resultMap.put("isGetPortraitSuccessful",true);
+        resultMap.put("picStr",picString);
+        in.close();
+        bos.close();
         return resultMap;
 
 

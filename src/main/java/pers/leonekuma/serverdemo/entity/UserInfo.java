@@ -15,14 +15,19 @@ public class UserInfo {
     private String nickName;
     @Column(name = "gender",length = 2)
     private String gender;
-    @Column(name = "portrait",length = 255)
-    private String portrait;
     @Column(name = "birthDate",length = 10)
     private String birthDate;
     @Column(name = "followeeNum",length = 11)
     private Integer followeeNum;
     @Column(name = "followerNum",length = 11)
     private Integer followerNum;
+    @Column(name ="lastCheckinDate",length = 10)
+    private String lastCheckinDate;
+    @Column(name = "isTodayCheckin",length = 1)
+    private boolean isTodayCheckin=false;
+    @Column(name ="checkinTotalDays",length = 10)
+    private Integer checkinTotalDays=0;
+
 
     public UserInfo(){}
 
@@ -38,9 +43,7 @@ public class UserInfo {
         return gender;
     }
 
-    public String getPortrait() {
-        return portrait;
-    }
+
 
     public String getBirthDate() {
         return birthDate;
@@ -52,6 +55,30 @@ public class UserInfo {
 
     public Integer getFollowerNum() {
         return followerNum;
+    }
+
+    public String getLastCheckinDate() {
+        return lastCheckinDate;
+    }
+
+    public boolean isTodayCheckin() {
+        return isTodayCheckin;
+    }
+
+    public Integer getCheckinTotalDays() {
+        return checkinTotalDays;
+    }
+
+    public void setCheckinTotalDays(Integer checkinTotalDays) {
+        this.checkinTotalDays = checkinTotalDays;
+    }
+
+    public void setLastCheckinDate(String lastCheckinDate) {
+        this.lastCheckinDate = lastCheckinDate;
+    }
+
+    public void setTodayCheckin(boolean todayCheckin) {
+        isTodayCheckin = todayCheckin;
     }
 
     public void setUserName(String userName) {
@@ -70,9 +97,6 @@ public class UserInfo {
         this.birthDate = birthDate;
     }
 
-    public void setPortrait(String portrait) {
-        this.portrait = portrait;
-    }
 
     public void setFolloweeNum(Integer followeeNum) {
         this.followeeNum = followeeNum;

@@ -92,9 +92,9 @@ public class SettingsController {
             userInfo.setGender("保密");
             userInfo.setNickName("昵称");
             userInfo.setBirthDate("1989-6-4");
-            userInfo.setPortrait("");
             userInfo.setFolloweeNum(0);//关注的人的数量
             userInfo.setFollowerNum(0);//粉丝数量
+            userInfo.setCheckinTotalDays(0);
             userInfoRepository.save(userInfo);
             return userInfo;
 

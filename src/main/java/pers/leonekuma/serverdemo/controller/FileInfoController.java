@@ -24,12 +24,16 @@ public class FileInfoController {
     private FileInfoRepository fileInfoRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PictureController pictureController;
 
     @PostMapping(value = "/upload_video")
     public Map uploadVideo(
             @RequestParam("username")String userName,
             @RequestParam("filetitle")String fileTitle,
-            @RequestParam("videostr")String videoStr
+            @RequestParam("videostr")String videoStr,
+            @RequestParam("tag")String tagStr,
+            @RequestParam("bitmap")String bitmapStr
     )throws Exception{
         System.out.println("进入upload_video方法");
         byte[] videoBytes = Base64.getDecoder().decode(videoStr);
@@ -68,7 +72,11 @@ public class FileInfoController {
         fileInfo.setFileUrl(dir);
         fileInfo.setFileType("video");
         fileInfoRepository.save(fileInfo);
+        //获取刚存储的视频的ID
+        Integer fileInfoId=fileInfoRepository.findByUploadUserNameAndUploadTime(userName,fileInfo.getUploadTime()).getFileId();
+        pictureController.upload_picture(userName,fileInfo.getFileType(),fileInfoId,bitmapStr);
         resultMap.put("isUploadFileSuccessful",true);
+      //  resultMap.put("fileId",fileInfoId);
         return resultMap;
     }
 }

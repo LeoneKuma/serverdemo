@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FileInfoRepository extends JpaRepository<FileInfo,Integer> {
    public List<FileInfo>findByUploadUserName(String uploadUserName);
+   public FileInfo findByUploadUserNameAndUploadTime(String userName,String date);
 }

@@ -29,6 +29,8 @@ public class FileInfo {
     Integer likeNum;
     @Column(name = "fileTitle",length = 255)
     String fileTitle;
+    @Column(name="tag",length = 20)
+    String tag;
 
 
     public String getUploadUserName() {
@@ -39,9 +41,6 @@ public class FileInfo {
         return fileId;
     }
 
-    public Integer getCommmentNum() {
-        return commentNum;
-    }
 
     public String getExamineAdminName() {
         return examineAdminName;
@@ -75,12 +74,25 @@ public class FileInfo {
         return fileTitle;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public Integer getCommentNum() {
+        return commentNum;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+
     public void setUploadUserName(String uploadUserName) {
         this.uploadUserName = uploadUserName;
     }
 
-    public void setCommmentNum(Integer commmentNum) {
-        this.commentNum = commmentNum;
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
     }
 
     public void setExamineAdminName(String examineAdminName) {

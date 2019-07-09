@@ -3,6 +3,7 @@ package pers.leonekuma.serverdemo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pers.leonekuma.serverdemo.entity.Dynamic;
 import pers.leonekuma.serverdemo.repository.DynamicRepository;
 import pers.leonekuma.serverdemo.repository.PictureRepository;
@@ -12,7 +13,7 @@ import com.alibaba.fastjson.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@RestController
 public class DynamicController {
     @Autowired
     private DynamicRepository dynamicRepository;
@@ -54,6 +55,7 @@ public class DynamicController {
 
             System.out.println("存储图片成功");
             resultMap.put("isSendDynamicSuccessful",true);
+            resultMap.put("dynamicId",dynamicId);
             return resultMap;
         }
 

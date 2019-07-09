@@ -25,21 +25,23 @@ public class FileInfoController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(value = "upload_video")
+    @PostMapping(value = "/upload_video")
     public Map uploadVideo(
-            @RequestParam("userName")String userName,
-            @RequestParam("fileTitle")String fileTitle,
-            @RequestParam("videoStr")String videoStr
+            @RequestParam("username")String userName,
+            @RequestParam("filetitle")String fileTitle,
+            @RequestParam("videostr")String videoStr
     )throws Exception{
+        System.out.println("进入upload_video方法");
         byte[] videoBytes = Base64.getDecoder().decode(videoStr);
         Map resultMap = new HashMap();
         Date dNow = new Date( );
         SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMddhhmm");
         String dateStr=ft.format(dNow);
+        String absoluteDir="/home/leonekuma/tomcat9/apache-tomcat-9.0.21/webapps/CyberClass2077/";
         String dir="videos/"
                 +userName+"/"
                 +dateStr;
-        File videoDir=new File(dir);
+        File videoDir=new File(absoluteDir+dir);
         if (!videoDir.exists()) {
             //如果该路径不存在，则创造路径
             videoDir.mkdirs();

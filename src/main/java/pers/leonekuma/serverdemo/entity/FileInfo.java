@@ -13,8 +13,8 @@ public class FileInfo {
     String fileUrl;
     @Column(name = "fileType",length = 20)
     String fileType;
-    @Column(name = "commmentNum",length = 10)
-    Integer commmentNum;
+    @Column(name = "commentNum",length = 10)
+    Integer commentNum;
     @Column(name = "uploadUserName",length = 20)
     String uploadUserName;
     @Column(name = "uploadTime",length = 20)
@@ -40,7 +40,7 @@ public class FileInfo {
     }
 
     public Integer getCommmentNum() {
-        return commmentNum;
+        return commentNum;
     }
 
     public String getExamineAdminName() {
@@ -80,7 +80,7 @@ public class FileInfo {
     }
 
     public void setCommmentNum(Integer commmentNum) {
-        this.commmentNum = commmentNum;
+        this.commentNum = commmentNum;
     }
 
     public void setExamineAdminName(String examineAdminName) {

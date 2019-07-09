@@ -157,6 +157,62 @@ public class PictureController {
 
 
     }
+    //@PostMapping(value = "/upload_picture")
+    public Map upload_picture(String userName,String picType,Integer id,String picStr)
+    throws  Exception{
+        byte[] picBytes = Base64.getDecoder().decode(picStr);
+        Map resultMap = new HashMap();
+        String dir;
+        CyberPicture pic = new CyberPicture();
+        pic.setUploadUserName(userName);
+        pic.setPicType(picType);
+        dir = "pictures/"
+                + pic.getPicType()
+                + "/"
+                + pic.getUploadUserName();
+        pic.setUrlPath(dir);
+        pic.setRelateId(id);
+        pictureRepository.save(pic);
+
+
+
+
+        //**************************
+        //文件操作
+
+        File picDir = new File(dir);
+        if (!picDir.exists()) {
+            //如果该路径不存在，则创造路径
+            picDir.mkdirs();
+            System.out.println("创造路径");
+        }
+        //设置图片名称
+        String picName = pic.getUploadUserName().concat(".cyberpic");
+        //获取文件输出流
+        File picFile = new File(picDir, picName);
+
+        //直接重建就行了，不需要先delete
+        picFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(picFile);
+        //将字节数列表形式的picBytes全部写入fos中（写进文件）
+        System.out.println(picBytes.length);
+        int i = 1;
+        InputStream fis = new ByteArrayInputStream(picBytes);
+        byte[] buf = new byte[1024];
+        int len = 0;
+        while ((len = fis.read(buf)) != -1) {
+            fos.write(buf, 0, len);
+        }
+        fos.close();
+        fis.close();
+        System.out.println("结束");
+
+        resultMap.put("isSavePictureSuccessful", true);
+        return resultMap;
+
+    }
+
+
 
 
 }

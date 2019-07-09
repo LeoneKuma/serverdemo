@@ -187,7 +187,7 @@ public class PictureController {
             System.out.println("创造路径");
         }
         //设置图片名称
-        String picName = pic.getUploadUserName().concat(".cyberpic");
+        String picName = (pic.getPicType()+pic.getRelateId()).concat(".cyberpic");
         //获取文件输出流
         File picFile = new File(picDir, picName);
 

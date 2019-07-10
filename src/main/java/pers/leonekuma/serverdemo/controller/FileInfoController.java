@@ -96,6 +96,7 @@ public class FileInfoController {
         //2. List<FileInfo>的JSON
         //3. List<String>的JSON(url)
         //4. List<String>的JSON(boolean)
+        System.out.println("获取视频列表");
         List<FileInfo> video_list=get_videos_list(userName,searchUserName);
         String video_list_str= JSON.toJSONString(video_list);
         List<String> video_url_list=new ArrayList<String>();
@@ -122,6 +123,7 @@ public class FileInfoController {
         resultMap.put("videoUrlList",video_url_list_str);
         resultMap.put("videoLikeList",video_like_list_str);
         resultMap.put("portraitsList",portraitsStr);
+        System.out.println("获取视频列表结束");
         return resultMap;
 
 
@@ -148,6 +150,7 @@ public class FileInfoController {
     public Map getVideoPicture(
             @RequestParam("fileId")Integer fileId
     )throws Exception{
+        System.out.println("获取视频封面");
         String picStr=pictureController.get_video_videoPicById(fileId);
         Map resultMap=new HashMap();
         if(picStr.length()==0){
@@ -157,6 +160,7 @@ public class FileInfoController {
         resultMap.put("isGetVideoPicSuccessful",true);
         resultMap.put("bitmapStr",picStr);
         resultMap.put("fileId",fileId);
+        System.out.println("获取视频封面结束");
         return resultMap;
 
     }

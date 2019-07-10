@@ -146,6 +146,7 @@ public class DynamicController {
     public Map getDynamicPicture(
             @RequestParam("dynamicId" )Integer dynamicId
     ) throws Exception{
+        System.out.println("获取动态图片");
         String picStr=pictureController.get_dynamic_dynamicPicById(dynamicId);
         Map resultMap=new HashMap();
         if(picStr.length()==0){
@@ -155,6 +156,7 @@ public class DynamicController {
         resultMap.put("isGetDynamicPicSuccessful",true);
         resultMap.put("bitmapStr",picStr);
         resultMap.put("dynamicId",dynamicId);
+        System.out.println("获取动态图片结束");
         return resultMap;
 
     }

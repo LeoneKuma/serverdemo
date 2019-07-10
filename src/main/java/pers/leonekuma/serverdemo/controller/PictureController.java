@@ -222,24 +222,7 @@ public class PictureController {
         for (Dynamic dynamic:dynamicList
              ) {
             CyberPicture cyberPicture=pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait",dynamic.getUserName());
-            String picDir=cyberPicture.getUrlPath();
-            String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
-            File picFile=new File(picDir,picName);
-            //读取文件
-            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
-            BufferedInputStream in = null;
-
-            in = new BufferedInputStream(new FileInputStream(picFile));
-            int buf_size = 1024;
-            byte[] buffer = new byte[buf_size];
-            int len = 0;
-            while (-1 != (len = in.read(buffer, 0, buf_size))) {
-                bos.write(buffer, 0, len);
-            }
-
-            portraitList.add(java.util.Base64.getEncoder().encodeToString(bos.toByteArray()));
-            in.close();
-            bos.close();
+            portraitList.add(getPortraitsPictureStrBypicEntity(cyberPicture));
 
         }
         return JSON.toJSONString(portraitList);
@@ -323,24 +306,7 @@ public class PictureController {
         for (FileInfo video:videoList
         ) {
             CyberPicture cyberPicture=pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait",video.getUploadUserName());
-            String picDir=cyberPicture.getUrlPath();
-            String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
-            File picFile=new File(picDir,picName);
-            //读取文件
-            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
-            BufferedInputStream in = null;
-
-            in = new BufferedInputStream(new FileInputStream(picFile));
-            int buf_size = 1024;
-            byte[] buffer = new byte[buf_size];
-            int len = 0;
-            while (-1 != (len = in.read(buffer, 0, buf_size))) {
-                bos.write(buffer, 0, len);
-            }
-
-            portraitList.add(java.util.Base64.getEncoder().encodeToString(bos.toByteArray()));
-            in.close();
-            bos.close();
+            portraitList.add(getPortraitsPictureStrBypicEntity(cyberPicture));
 
         }
         return JSON.toJSONString(portraitList);
@@ -351,27 +317,33 @@ public class PictureController {
         for (Comment comment:commentList
         ) {
             CyberPicture cyberPicture=pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait",comment.getPublisherName());
-            String picDir=cyberPicture.getUrlPath();
-            String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
-            File picFile=new File(picDir,picName);
-            //读取文件
-            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
-            BufferedInputStream in = null;
-
-            in = new BufferedInputStream(new FileInputStream(picFile));
-            int buf_size = 1024;
-            byte[] buffer = new byte[buf_size];
-            int len = 0;
-            while (-1 != (len = in.read(buffer, 0, buf_size))) {
-                bos.write(buffer, 0, len);
-            }
-
-            portraitList.add(java.util.Base64.getEncoder().encodeToString(bos.toByteArray()));
-            in.close();
-            bos.close();
+            portraitList.add(getPortraitsPictureStrBypicEntity(cyberPicture));
 
         }
         return JSON.toJSONString(portraitList);
+    }
+    public String getPortraitsPictureStrBypicEntity(CyberPicture cyberPicture)
+    throws Exception{
+        String picDir=cyberPicture.getUrlPath();
+        String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
+        File picFile=new File(picDir,picName);
+        //读取文件
+        ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
+        BufferedInputStream in = null;
+
+        in = new BufferedInputStream(new FileInputStream(picFile));
+        int buf_size = 1024;
+        byte[] buffer = new byte[buf_size];
+        int len = 0;
+        while (-1 != (len = in.read(buffer, 0, buf_size))) {
+            bos.write(buffer, 0, len);
+        }
+
+        String picStr=java.util.Base64.getEncoder().encodeToString(bos.toByteArray());
+        in.close();
+        bos.close();
+        return picStr;
+
     }
 
 

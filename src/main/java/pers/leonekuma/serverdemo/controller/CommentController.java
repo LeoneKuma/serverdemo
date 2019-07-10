@@ -30,12 +30,14 @@ public class CommentController {
     public Map sendComment(
             @RequestParam("comment")String commentStr
     ){
+        System.out.println("收到来自客户端的评论");
         Map resultMap=new HashMap();
         Comment comment;
         comment=JSON.parseObject(commentStr,Comment.class);
         commentRepository.save(comment);
 
         resultMap.put("isSendCommentSuccessful",true);
+        System.out.println("评论处理结束");
         return resultMap;
 
     }
@@ -43,6 +45,7 @@ public class CommentController {
     public Map getComments(
             @RequestParam("dynamicId")Integer dynamicId
     )throws Exception {
+        System.out.println("获取动态ID为"+dynamicId+"下的评论");
         Map resultMap = new HashMap();
         Sort s = new Sort(Sort.Direction.DESC, "dynamicId");
         Pageable p = PageRequest.of(0, 100, s);
@@ -53,6 +56,7 @@ public class CommentController {
         resultMap.put("isGetCommentsSuccessful", true);
         resultMap.put("main_comment_list", commentListStr);
         resultMap.put("portraitsList",portraitsStr);
+        System.out.println("获取评论结束");
         return resultMap;
     }
 

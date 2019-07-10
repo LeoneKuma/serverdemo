@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pers.leonekuma.serverdemo.entity.Comment;
 import pers.leonekuma.serverdemo.entity.CyberPicture;
+import pers.leonekuma.serverdemo.entity.Dynamic;
+import pers.leonekuma.serverdemo.entity.FileInfo;
 import pers.leonekuma.serverdemo.repository.PictureRepository;
 import pers.leonekuma.serverdemo.repository.UserRepository;
 
@@ -157,7 +160,8 @@ public class PictureController {
 
 
     }
-    //@PostMapping(value = "/upload_picture")
+
+   // @PostMapping(value = "/upload_picture")
     public Map upload_picture(String userName,String picType,Integer id,String picStr)
     throws  Exception{
         byte[] picBytes = Base64.getDecoder().decode(picStr);
@@ -211,7 +215,164 @@ public class PictureController {
         return resultMap;
 
     }
+    //返回一个List转换成的JSON字符串
+    public String get_dynamic_portraits(List<Dynamic> dynamicList) throws  Exception{
 
+        List<String> portraitList=new ArrayList<String>();
+        for (Dynamic dynamic:dynamicList
+             ) {
+            CyberPicture cyberPicture=pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait",dynamic.getUserName());
+            String picDir=cyberPicture.getUrlPath();
+            String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
+            File picFile=new File(picDir,picName);
+            //读取文件
+            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
+            BufferedInputStream in = null;
+
+            in = new BufferedInputStream(new FileInputStream(picFile));
+            int buf_size = 1024;
+            byte[] buffer = new byte[buf_size];
+            int len = 0;
+            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+                bos.write(buffer, 0, len);
+            }
+
+            portraitList.add(java.util.Base64.getEncoder().encodeToString(bos.toByteArray()));
+            in.close();
+            bos.close();
+
+        }
+        return JSON.toJSONString(portraitList);
+    }
+
+    public String get_dynamic_dynamicPicByList(List<Dynamic> dynamicList) throws  Exception{
+        List<String> pictureList=new ArrayList<String>();
+        for (Dynamic dynamic:dynamicList
+        ) {
+            CyberPicture pic=pictureRepository.getCyberPictureByPicTypeAndAndRelateId("dynamic",dynamic.getDynamicId());
+            String picDir = pic.getUrlPath();
+            String picName = (pic.getPicType()+pic.getRelateId()).concat(".cyberpic");
+            File picFile=new File(picDir,picName);
+            //读取文件
+            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
+            BufferedInputStream in = null;
+
+            in = new BufferedInputStream(new FileInputStream(picFile));
+            int buf_size = 1024;
+            byte[] buffer = new byte[buf_size];
+            int len = 0;
+            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+                bos.write(buffer, 0, len);
+            }
+
+            pictureList.add(java.util.Base64.getEncoder().encodeToString(bos.toByteArray()));
+            in.close();
+            bos.close();
+
+        }
+        return JSON.toJSONString(pictureList);
+    }
+    public String get_dynamic_dynamicPicById(Integer id)throws  Exception{
+
+        CyberPicture pic=pictureRepository.getCyberPictureByPicTypeAndAndRelateId("dynamic",id);
+        String picDir = pic.getUrlPath();
+        String picName = (pic.getPicType()+pic.getRelateId()).concat(".cyberpic");
+        File picFile=new File(picDir,picName);
+        //读取文件
+        ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
+        BufferedInputStream in = null;
+
+        in = new BufferedInputStream(new FileInputStream(picFile));
+        int buf_size = 1024;
+        byte[] buffer = new byte[buf_size];
+        int len = 0;
+        while (-1 != (len = in.read(buffer, 0, buf_size))) {
+            bos.write(buffer, 0, len);
+        }
+        String picStr=java.util.Base64.getEncoder().encodeToString(bos.toByteArray());
+        return picStr;
+
+
+    }
+    public String get_video_videoPicById(Integer id)throws  Exception{
+
+        CyberPicture pic=pictureRepository.getCyberPictureByPicTypeAndAndRelateId("video",id);
+        String picDir = pic.getUrlPath();
+        String picName = (pic.getPicType()+pic.getRelateId()).concat(".cyberpic");
+        File picFile=new File(picDir,picName);
+        //读取文件
+        ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
+        BufferedInputStream in = null;
+
+        in = new BufferedInputStream(new FileInputStream(picFile));
+        int buf_size = 1024;
+        byte[] buffer = new byte[buf_size];
+        int len = 0;
+        while (-1 != (len = in.read(buffer, 0, buf_size))) {
+            bos.write(buffer, 0, len);
+        }
+        String picStr=java.util.Base64.getEncoder().encodeToString(bos.toByteArray());
+        return picStr;
+
+
+    }
+    //返回一个List转换成的JSON字符串
+    public String get_video_portraits(List<FileInfo> videoList) throws  Exception{
+
+        List<String> portraitList=new ArrayList<String>();
+        for (FileInfo video:videoList
+        ) {
+            CyberPicture cyberPicture=pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait",video.getUploadUserName());
+            String picDir=cyberPicture.getUrlPath();
+            String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
+            File picFile=new File(picDir,picName);
+            //读取文件
+            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
+            BufferedInputStream in = null;
+
+            in = new BufferedInputStream(new FileInputStream(picFile));
+            int buf_size = 1024;
+            byte[] buffer = new byte[buf_size];
+            int len = 0;
+            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+                bos.write(buffer, 0, len);
+            }
+
+            portraitList.add(java.util.Base64.getEncoder().encodeToString(bos.toByteArray()));
+            in.close();
+            bos.close();
+
+        }
+        return JSON.toJSONString(portraitList);
+    }
+    public String get_comments_portraits(List<Comment> commentList) throws  Exception{
+
+        List<String> portraitList=new ArrayList<String>();
+        for (Comment comment:commentList
+        ) {
+            CyberPicture cyberPicture=pictureRepository.getCyberPictureByPicTypeAndUploadUserName("portrait",comment.getPublisherName());
+            String picDir=cyberPicture.getUrlPath();
+            String picName=cyberPicture.getUploadUserName().concat(".cyberpic");
+            File picFile=new File(picDir,picName);
+            //读取文件
+            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) picFile.length());
+            BufferedInputStream in = null;
+
+            in = new BufferedInputStream(new FileInputStream(picFile));
+            int buf_size = 1024;
+            byte[] buffer = new byte[buf_size];
+            int len = 0;
+            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+                bos.write(buffer, 0, len);
+            }
+
+            portraitList.add(java.util.Base64.getEncoder().encodeToString(bos.toByteArray()));
+            in.close();
+            bos.close();
+
+        }
+        return JSON.toJSONString(portraitList);
+    }
 
 
 

@@ -1,10 +1,11 @@
 package pers.leonekuma.serverdemo.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="tb_dynamic")
-public class Dynamic {
+public class Dynamic implements Serializable {
     @Id
     @Column(name = "dynamicId",length = 10)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +18,8 @@ public class Dynamic {
     private String date;
     @Column(name = "commentNum",length = 10)
     private Integer commentNum;
+    @Column(name="likeNum",length = 10)
+    private Integer likeNum;
 
     public String getUserName() {
         return userName;
@@ -37,6 +40,15 @@ public class Dynamic {
     public String getDate() {
         return date;
     }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
 
     public void setUserName(String userName) {
         this.userName = userName;
